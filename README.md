@@ -1,30 +1,22 @@
-# connect-to-oracle-db
+# 8490 Final Project
 Establishes a connection to the Oracle database and sets up sample routing for locally-hosted projects in HTML, CSS, and JS. Utilizes NodeJS. Recommended source-code editor is Visual Studio Code.
 
 1. Clone the repository.
 2. Download NodeJS and connect it to OracleDB locally.
 3. Run the app.
 
-_**Sign in to GitHub to use this repository as a template**_
-
 ## Important notes
-1. Never commit your username and password in dbconfig.js to the remote repository.
-2. If you make changes to server.js, kill the terminal and re-run "npm start" to load those changes.
-3. If the DB connection is not working, make sure you are on VPN or Villanova Wi-Fi.
-4. Canges in Visual Studio Code are not automatically saved in the remote repository. There are a lot of resources online about working with git commands through Visual Studio Code. You can also make branches to collaborate with teammates.
+1. If you make changes to server.js, kill the terminal and re-run "npm start" to load those changes.
+2. If the DB connection is not working, make sure you are on VPN or Villanova Wi-Fi.
+3. Changes in Visual Studio Code are not automatically saved in the remote repository. There are a lot of resources online about working with git commands through Visual Studio Code. You can also make branches to collaborate with teammates.
 
 ## Clone the repository
-_**Sign in to GitHub to use this repository as a template**_
-1. On GitHub.com, navigate to the [main page of the connect-to-oracle-db repository](https://github.com/liz-ohara/connect-to-oracle-db).
-2. Click the "Use this template" dropdown.
-3. Click "Create a new repository."
-4. Give the repository a name and configure the settings as you wish. Click "Create repository."
-5. In the new repository you created, click <> Code above.
-6. Copy the HTTPS URL for the repository.
-7. Open Visual Studio Code.
-8. Click "Clone Git Repository" and paste the copied URL.
-9. Select a repository location.
-10. Open the repository you have just cloned.
+1. In the repository, click <> Code above.
+2. Copy the HTTPS URL for the repository.
+3. Open Visual Studio Code.
+4. Click "Clone Git Repository" and paste the copied URL.
+5. Select a repository location.
+6. Open the repository you have just cloned.
 
 Note: If you're signing in to GitHub from Visual Studio for the first time, you may need to authorize your account by configuring your username and password before pushing and pulling changes. Run each of these lines individually in the Visual Studio Code terminal. When you run git commit or git push, it may ask you to verify your account.
 ```
@@ -156,10 +148,9 @@ node seeListings.js
 ```
 
 ## To run the project
-1. Ensure the bike rental database is created in SQLDeveloper on your Villanova repository. See the "create bike db" folder for the SQL and inserts.
+1. Ensure the database is created in SQLDeveloper on your Villanova repository. See the "create bike db" folder for the SQL and inserts.
 2. Ensure the repository is cloned in Visual Studio Code and Oracle Instant Client is downloaded. Follow the sections above to do so.
-4. Open the dbconfig.js file and enter your Oracle username and password
-5. You may need to install the following libraries in the terminal (and any others that throw errors). **This only needs to be done one time.**
+3. You may need to install the following libraries in the terminal (and any others that throw errors). **This only needs to be done one time.**
 ```
 npm install express
 npm install body-parser
