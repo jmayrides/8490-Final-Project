@@ -10,7 +10,7 @@ Recommended source-code editor is Visual Studio Code.
 ## Important notes
 1. If you make changes to server.js, kill the terminal and re-run "npm start" to load those changes.
 2. If the DB connection is not working, make sure you are on VPN or Villanova Wi-Fi.
-3. Changes in Visual Studio Code are not automatically saved in the remote repository. There are a lot of resources online about working with git commands through Visual Studio Code. You can also make branches to collaborate with teammates.
+3. Changes in Visual Studio Code are not automatically saved in the remote repository.
 
 ## Clone the repository
 1. In the repository, click <> Code above.
