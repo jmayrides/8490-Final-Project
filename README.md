@@ -1,5 +1,7 @@
 # 8490 Final Project
-Establishes a connection to the Oracle database and sets up sample routing for locally-hosted projects in HTML, CSS, and JS. Utilizes NodeJS. Recommended source-code editor is Visual Studio Code.
+A sample application to demonstrate our online farmer's market DB. 
+
+Recommended source-code editor is Visual Studio Code.
 
 1. Clone the repository.
 2. Download NodeJS and connect it to OracleDB locally.
