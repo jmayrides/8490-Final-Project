@@ -19,7 +19,7 @@ const path = require('path');
 var connection = require('./connectToDB.js'); // connect to DB
 var bodyParser = require('body-parser'); // middleware
 
-const PORT = process.env.PORT || 8080; //Sets UI to http://localhost:8080/
+const PORT = process.env.PORT || 3000; //Sets UI to http://localhost:3000/
 
 // USED TO COLLECT INFORMATION FROM PAGE
 app.use(bodyParser.urlencoded({ extended: true }));
