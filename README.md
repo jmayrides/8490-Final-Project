@@ -34,62 +34,25 @@ Connection String Help: https://node-oracledb.readthedocs.io/en/latest/user_guid
 ### ON MAC 
 1. Install NodeJS from [nodejs.org](https://nodejs.org/en)
 
-2. Install node-oracledb using the npm package manager, which is included in Node.js:
+2. Install all dependencies  using the node package manager, which is included in Node.js:
 ```
-npm install oracledb
+npm i
 ```
 3. Install the free Oracle Instant Client ‘Basic’ package.
 Download the Basic 64-bit DMG from [Oracle Technology Network](https://www.oracle.com/database/technologies/instant-client/macos-intel-x86-downloads.html)
 
-4. Install Oracle Instant Client (Scripted installation). Open the terminal and run the following commands:
+4. Or install Oracle Instant Client (Scripted installation). Open the terminal and run the following commands:
 ```
-cd $HOME/Desktop
+cd $HOME
 curl -O https://download.oracle.com/otn_software/mac/instantclient/198000/instantclient-basic-macos.x64-19.8.0.0.0dbru.dmg
 hdiutil mount instantclient-basic-macos.x64-19.8.0.0.0dbru.dmg
 /Volumes/instantclient-basic-macos.x64-19.8.0.0.0dbru/install_ic.sh
 hdiutil unmount /Volumes/instantclient-basic-macos.x64-19.8.0.0.0dbru
 ```
 
-_The Instant Client directory will be $HOME/Desktop/instantclient_19_8._
+_The Instant Client directory will be $HOME/instantclient_19_8._
 
-_Applications may not have access to specific folders (like the Downloads directory), so pick a path to place Instant Client that is convenient._
-
-5. Configure Instant Client
-
-Tell node-oracledb where your Oracle Client libraries are by updating the following file path (in instantclient.js):
-```
-const oracledb = require('oracledb');
-const fs = require('fs');
-try {
-  let libPath;
-  if (process.platform === 'win32') {           // Windows
-    libPath = 'C:\\oracle\\instantclient_19_12';
-  } else if (process.platform === 'darwin') {   // macOS
-    libPath = process.env.HOME + '/Desktop/instantclient_19_8';
-  }
-  if (libPath && fs.existsSync(libPath)) {
-    oracledb.initOracleClient({ libDir: libPath });
-  }
-}
-catch (err) {
-  console.error(err);
-  process.exit(1);
-}
-```
-_If you did not place Instant Client in your Desktop folder, change the file path._
-
-6. Edit dbconfig.js and set the database credentials to your environment, for example:
-```
-module.exports = {
-  user          : "hr",
-  password      : "pswd",
-  connectString : "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=mymachine.example.com)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SID=ORCL)))"
-};
-```
-_For Villanova students, connectString should be:
-connectString : "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=CSDB.csc.villanova.edu)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SID=orcl)))"_
-
-7. Run one of the examples, such as seeListings.js:
+5. Run one of the examples, such as seeListings.js:
 ```
 node seeListings.js 
 ```
@@ -108,57 +71,18 @@ Download the free 64-bit Instant Client Basic ZIP file from [Oracle Technology N
 
 For example unzip instantclient-basic-windows.x64-19.11.0.0.0dbru.zip to C:\oracle\instantclient_19_11.
 
-5. Configure Instant Client
-Tell node-oracledb where your Oracle Client libraries are by updating the following file path (in instantclient.js):
-```
-const oracledb = require('oracledb');
-const fs = require('fs');
-try {
-  let libPath;
-  if (process.platform === 'win32') {           // Windows
-    libPath = 'C:\\oracle\\instantclient_19_12';
-  } else if (process.platform === 'darwin') {   // macOS
-    libPath = process.env.HOME + '/Desktop/instantclient_19_8';
-  }
-  if (libPath && fs.existsSync(libPath)) {
-    oracledb.initOracleClient({ libDir: libPath });
-  }
-}
-catch (err) {
-  console.error(err);
-  process.exit(1);
-}
-```
-_If you did not unzip Instant Client to C:\oracle\instantclient_19_1, you need to update the directory._
-
-6. Edit dbconfig.js and set the database credentials to your environment, for example:
-```
-module.exports = {
-  user          : "hr",
-  password      : "pswd",
-  connectString : "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=mymachine.example.com)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SID=ORCL)))"
-};
-```
-_For Villanova students, connectString should be:
-connectString : "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=CSDB.csc.villanova.edu)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SID=orcl)))"_
-
-7. Run one of the examples, such as seeListings.js:
+5. Run one of the examples, such as seeListings.js:
 ```
 node seeListings.js
 ```
 
 ## To run the project
-1. Ensure the database is created in SQLDeveloper on your Villanova repository. See the "create bike db" folder for the SQL and inserts.
+1. Ensure the database is created in SQLDeveloper on your Villanova repository. See the "create_db" folder for the SQL and inserts.
 2. Ensure the repository is cloned in Visual Studio Code and Oracle Instant Client is downloaded. Follow the sections above to do so.
-3. You may need to install the following libraries in the terminal (and any others that throw errors). **This only needs to be done one time.**
-```
-npm install express
-npm install body-parser
-```
-4. Make sure you are on the Villanova network, or connect to the VPN before starting the program.
-5. Open a new terminal in Visual Studio Code and run "npm start." The console should read "Server started at http://localhost:8080" and
+3. Make sure you are on the Villanova network, or connect to the VPN before starting the program.
+4. Open a new terminal in Visual Studio Code and run "npm start." The console should read "Server started at http://localhost:8080" and
 "Oracle connection established" if both the UI has been served locally and the Oracle connection is successfully established.
-7. Open http://localhost:8080 and you should see the UI of your application load.
+5. Open http://localhost:8080 and you should see the UI of your application load.
 
 [Working with git in Visual Studio Code](https://code.visualstudio.com/docs/sourcecontrol/overview)
 
