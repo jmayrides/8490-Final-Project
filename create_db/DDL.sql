@@ -34,11 +34,12 @@ CREATE TABLE Seller (
 CREATE TABLE Product (
     listing_id INT PRIMARY KEY,
     fresh VARCHAR2(1) CHECK (fresh IN ('Y', 'N')),
-    produce_name VARCHAR2(255),
+    name VARCHAR2(255),
     quantity_type VARCHAR2(255) CHECK (quantity_type IN ('Weight', 'Item')),
-    produce_quantity DECIMAL(5,2) CHECK (produce_quantity > 0),
+    quantity DECIMAL(10,2) CHECK (quantity > 0),
+    price DECIMAL(10,2) NOT NULL CHECK (price > 0),
     discount DECIMAL(1,2) CHECK (discount >= 0 AND discount <= 1),
-    item_type VARCHAR2(255) CHECK (item_type IN ('Fruit', 'Vegetable', 'Dairy', 'Meat', 'Other')),
+    item_category VARCHAR2(255) CHECK (item_category IN ('Fruit', 'Vegetable', 'Dairy', 'Meat', 'Other')),
     seller_id INT,
     FOREIGN KEY (seller_id) REFERENCES Seller(seller_id)
 );
@@ -56,7 +57,7 @@ CREATE TABLE Purchase (
 CREATE TABLE Payment (
     payment_id INT PRIMARY KEY,
     customer_id INT,
-    card_type VARCHAR2(255) NOT NULL CHECK (card_type IN ('Visa', 'Mastercard', 'Amex', 'Discover')),
+    card_brand VARCHAR2(255) NOT NULL CHECK (card_brand IN ('Visa', 'Mastercard', 'Amex', 'Discover')),
     purchase_id INT,
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
     FOREIGN KEY (purchase_id) REFERENCES Purchase(purchase_id)
@@ -74,7 +75,7 @@ CREATE TABLE Review (
 CREATE TABLE Cart (
     customer_id INT PRIMARY KEY,
     listing_id INT,
-    quantity INT CHECK (quantity >= 0),
+    quantity INT NOT NULL CHECK (quantity >= 0),
     added_date DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
     FOREIGN KEY (listing_id) REFERENCES Product(listing_id)
