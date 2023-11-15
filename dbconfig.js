@@ -9,6 +9,6 @@ clicking on your Oracle Connection and choosing "Properties."
 
 module.exports = {
     user          : "dbteam1",
-    password      : "password", 
+    password      : "F23dbteam1P", 
     connectString : "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=csdb.csc.villanova.edu)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SID=orcl)))" 
 };
