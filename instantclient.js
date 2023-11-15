@@ -7,7 +7,7 @@ try {
   if (process.platform === 'win32') {           // Windows
     libPath = 'C:\\oracle\\instantclient_19_12';
   } else if (process.platform === 'darwin') {   // macOS
-    libPath = process.env.HOME + '/Desktop/instantclient_19_8';
+    libPath = process.env.HOME + '/instantclient_19_8';
   }
   if (libPath && fs.existsSync(libPath)) {
     oracledb.initOracleClient({ libDir: libPath });
