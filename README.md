@@ -80,9 +80,9 @@ node seeListings.js
 1. Ensure the database is created in SQLDeveloper on your Villanova repository. See the "create_db" folder for the SQL and inserts.
 2. Ensure the repository is cloned in Visual Studio Code and Oracle Instant Client is downloaded. Follow the sections above to do so.
 3. Make sure you are on the Villanova network, or connect to the VPN before starting the program.
-4. Open a new terminal in Visual Studio Code and run "npm start." The console should read "Server started at http://localhost:8080" and
+4. Open a new terminal in Visual Studio Code and run "npm start." The console should read "Server started at http://localhost:3000" and
 "Oracle connection established" if both the UI has been served locally and the Oracle connection is successfully established.
-5. Open http://localhost:8080 and you should see the UI of your application load.
+5. Open http://localhost:3000 and you should see the UI of your application load.
 
 [Working with git in Visual Studio Code](https://code.visualstudio.com/docs/sourcecontrol/overview)
 
