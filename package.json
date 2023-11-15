@@ -1,13 +1,13 @@
 {
-  "name": "connect-to-oracle-db",
+  "name": "8490-Final-Project",
   "version": "1.0.0",
-  "description": "Establishes a connection to the Oracle database and sets up sample routing for locally-hosted projects in HTML, CSS, and JS. Utilizes NodeJS. Recommended source-code editor is Visual Studio Code.",
+  "description": "A website to view and interact with an online farmer's market.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "prepare": "node connectToDB.js"
   },
-  "author": "Liz O'Hara, Villanova University",
+  "author": "Veggie Vibes, Villanova University",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
