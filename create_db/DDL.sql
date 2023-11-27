@@ -38,7 +38,7 @@ CREATE TABLE Product (
     quantity_type VARCHAR2(255) CHECK (quantity_type IN ('Weight', 'Item')),
     quantity DECIMAL(10,2) CHECK (quantity > 0),
     price DECIMAL(10,2) NOT NULL CHECK (price > 0),
-    discount DECIMAL(1,2) CHECK (discount >= 0 AND discount < 1),
+    discount DECIMAL(3,2) CHECK (discount >= 0 AND discount < 1),
     item_category VARCHAR2(255) CHECK (item_category IN ('Fruit', 'Vegetable', 'Dairy', 'Meat', 'Other')),
     seller_id INT,
     FOREIGN KEY (seller_id) REFERENCES Seller(seller_id)
@@ -67,7 +67,7 @@ CREATE TABLE Review (
     review_id INT PRIMARY KEY,
     review_text VARCHAR2(255),
     purchase_id INT,
-    rating DECIMAL(1,1) NOT NULL CHECK (rating >= 0 AND rating <= 5),
+    rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
     review_date DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (purchase_id) REFERENCES Purchase(purchase_id)
 );
