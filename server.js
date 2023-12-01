@@ -31,7 +31,13 @@ connection.then(connection => {
 		res.sendFile(path.join(__dirname, '/homepage.html'));
 	});
 	app.get('/home', function(req, res) {
-	res.sendFile(path.join(__dirname, '/homepage.html'));
+		res.sendFile(path.join(__dirname, '/homepage.html'));
+	});
+	app.get('/seller', function(req, res) {
+		res.sendFile(path.join(__dirname, '/seller.html'));
+	});
+	app.get('/customer', function(req, res) {
+		res.sendFile(path.join(__dirname, '/customer.html'));
 	});
 	app.get('/connectToDB', function(req, res) {
 		res.sendFile(path.join(__dirname, '/connectToDB.js'));

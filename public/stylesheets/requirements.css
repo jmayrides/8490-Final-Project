@@ -20,23 +20,37 @@ Body {
 }   
 
 button {   
-	background-color: #76a5c0;   
+	background-color: #4a7d9b;   
     color: whitesmoke;   
     border: none;   
     cursor: pointer;
-    padding: 12px 16px;
-
-    width: 30%;
-    text-align: center;
-
-    font-size: 30px;
+    padding: 12px 16px; 
     
     display: flex;
     margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 20px;
 } 
-
+button:hover {
+ 	background-color: #32607b;   
+}
+ 
+input[type=text] {   
+	width: 100%;   
+    margin: 8px 0;  
+    padding: 12px 20px;   
+    display: inline-block;   
+    box-sizing: border-box;   
+    background-color: whitesmoke;
+    border-width: 0 0 2px;
+    border-color: lightgray;
+}  
+input:hover{
+    border-width: 0 0 2px;
+    border-color: #4e4e4e;
+}
+input:focus {
+    border-width: 0 0 2px;
+    border-color: #4e4e4e;
+}
 
 /* Text styling */
 .header {
@@ -51,4 +65,8 @@ button {
 hr {   
     background-color: lightgray; 
     margin-top: 5%;
+} 
+
+#title {   
+    color: white;
 } 
