@@ -3,44 +3,41 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">  
 <link rel="stylesheet" href="/stylesheets/showResults.css">
-<title>Retrieved Bike Data</title>
+<title>Retrieved Data</title>
 </head>
 <body>
-  <h1>Retrieved Bike Data</h1>
-  <table id="dataTable">
-    <thead>
-      <tr>
-        <th>Bike ID</th>
-        <th>Year Purchased</th>
-        <th>Color</th>
-        <th>Style</th>
-        <th>Size</th>
-        <th>Availability</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <h1>Retrieved Data</h1>
+  <div id="table-container"></div>
 
   <script>
     // Function to fetch and display JSON data in the table
     async function fetchData() {
       try {
-        const response = await fetch('/bikesdatajson');
+        const response = await fetch('/retrievedDataJson');
         const jsonData = await response.json();
-        const tbody = document.querySelector('#dataTable tbody');
 
-        jsonData.forEach(item => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${item[0]}</td>
-            <td>${item[1]}</td>
-            <td>${item[2]}</td>
-            <td>${item[3]}</td>
-            <td>${item[4]}</td>
-            <td>${item[5]}</td>
-          `;
-          tbody.appendChild(row);
-        });
+        const tableContainer = document.getElementById('table-container');
+            const table = document.createElement('table');
+
+            // Create table header
+            const headerRow = table.insertRow();
+            jsonData.metaData.forEach(item => {
+                const th = document.createElement('th');
+                th.textContent = item.name;
+                headerRow.appendChild(th);
+            });
+
+            // Create table rows
+            jsonData.rows.forEach(rowData => {
+                const row = table.insertRow();
+                jsonData.metaData.forEach(item => {
+                    const cell = row.insertCell();
+                    cell.textContent = rowData[item.name];
+                });
+            });
+
+            tableContainer.appendChild(table);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }

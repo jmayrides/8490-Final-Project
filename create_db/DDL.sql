@@ -3,7 +3,6 @@ DROP TABLE Seller CASCADE CONSTRAINTS;
 DROP TABLE Product CASCADE CONSTRAINTS;
 DROP TABLE Purchase CASCADE CONSTRAINTS;
 DROP TABLE Payment CASCADE CONSTRAINTS;
-DROP TABLE Review CASCADE CONSTRAINTS;
 DROP TABLE Cart CASCADE CONSTRAINTS;
 
 CREATE TABLE Customer (
@@ -27,8 +26,7 @@ CREATE TABLE Seller (
     zip VARCHAR2(5) NOT NULL,
     email VARCHAR2(255) NOT NULL CHECK (email LIKE '%@%.%'),
     register_date DATE DEFAULT CURRENT_DATE,
-    phone_number VARCHAR2(10) NOT NULL,
-    rating DECIMAL(1,1)
+    phone_number VARCHAR2(10) NOT NULL
 );
 
 CREATE TABLE Product (
@@ -60,15 +58,6 @@ CREATE TABLE Payment (
     card_brand VARCHAR2(255) NOT NULL CHECK (card_brand IN ('Visa', 'Mastercard', 'Amex', 'Discover')),
     purchase_id INT,
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-    FOREIGN KEY (purchase_id) REFERENCES Purchase(purchase_id)
-);
-
-CREATE TABLE Review (
-    review_id INT PRIMARY KEY,
-    review_text VARCHAR2(255),
-    purchase_id INT,
-    rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
-    review_date DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (purchase_id) REFERENCES Purchase(purchase_id)
 );
 
