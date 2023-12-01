@@ -9,7 +9,7 @@ Body {
 }
 .container {   
     padding: 40px;   
-    width:  30%;
+    width:  50%;
     background-color: white; 
     box-shadow: 0 0 30px 2px #5d88a0;
     border-radius: 5px;
@@ -19,7 +19,6 @@ Body {
     margin-bottom: 3%;
 }   
 
-/* Get bikes button and hover */
 button {   
 	background-color: #4a7d9b;   
     color: whitesmoke;   
@@ -34,7 +33,6 @@ button:hover {
  	background-color: #32607b;   
 }
  
-/* Username and password input */
 input[type=text] {   
 	width: 100%;   
     margin: 8px 0;  

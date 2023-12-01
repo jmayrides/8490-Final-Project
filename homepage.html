@@ -8,8 +8,33 @@
 
 <script>
 
-  function validateProductGetDataForm() {
+  function validateCreateSellerForm() {
+    var name = document.getElementById("seller_name").value; 
+    var street = document.getElementById("seller_street").value;
+    var city = document.getElementById("seller_city").value;
+    var state = document.getElementById("seller_state").value;
+    var zip = document.getElementById("seller_zip").value;
+    var email = document.getElementById("seller_email").value;
+    var phone_number = document.getElementById("seller_phone_number").value;
+        
+    if(name == "" || street == "" || city == "" || state == "" || zip == "" || email == "" || phone_number == "") {  
+      console.log("Please make sure all values are filled out.");
+      return false;  
+    } else if(state.length != 2) {
+      console.log("Please make sure State is a valid 2 character state abbreviation.");
+      return false;
+    } else if(zip.length != 5) {
+      console.log("Please make sure ZIP is a valid 5 character ZIP code.");
+      return false;
+    } else if(phone_number.length != 10) {
+      console.log("Please make sure Phone Number is a valid 10 digit phone number.");
+      return false;
+    }
 
+    return true;
+  }
+
+  function validateProductGetDataForm() {
     var seller_id = document.getElementById("product_seller_id").value; 
         
     if(seller_id == "") {  
@@ -21,7 +46,6 @@
   }
 
   function validatePurchaseGetDataForm() {
-
     var seller_id = document.getElementById("purchase_seller_id").value; 
     
     if(seller_id == "") {  
@@ -35,11 +59,32 @@
 </script>
 
 <body> 
-    
+    <h1>Seller Requirements</h1>
+    <div class="container"> 
+      <form class="formContainer" action="/createSeller" method="post">
+          <h1 class="header"> Create New Seller Account </h1> 
+          <label class="inputFieldLabel">Name: *</label>   
+          <input type="text" placeholder="Enter Name" name="name" id="seller_name">
+          <label class="inputFieldLabel">Street Address: *</label>   
+          <input type="text" placeholder="Enter Street Address" name="street" id="seller_street">
+          <label class="inputFieldLabel">City: *</label>   
+          <input type="text" placeholder="Enter City" name="city" id="seller_city">
+          <label class="inputFieldLabel">State: *</label>   
+          <input type="text" placeholder="Enter State" name="state" id="seller_state">
+          <label class="inputFieldLabel">ZIP Code: *</label>   
+          <input type="text" placeholder="Enter ZIP Code" name="zip" id="seller_zip">
+          <label class="inputFieldLabel">Email Address: *</label>   
+          <input type="text" placeholder="Enter Email Address" name="email" id="seller_email">
+          <label class="inputFieldLabel">Phone Number: *</label>   
+          <input type="text" placeholder="Enter Phone Number" name="phone_number" id="seller_phone_number">
+          <button type="submit" onclick="return validateCreateSellerForm()">Create Account</button> 
+      </form> 
+    </div>  
+  
     <div class="container"> 
         <form class="formContainer" action="/getProducts" method="post">
             <h1 class="header"> Get Product Data </h1> 
-            <label class="inputFieldLabel">Seller ID:</label>   
+            <label class="inputFieldLabel">Seller ID: *</label>   
             <input type="text" placeholder="Enter Seller ID" name="seller_id" id="product_seller_id">
             <button type="submit" onclick="return validateProductGetDataForm()">Get Data</button> 
         </form> 
@@ -48,7 +93,7 @@
     <div class="container"> 
       <form class="formContainer" action="/getPurchases" method="post">
           <h1 class="header"> Get Purchase Data </h1> 
-          <label class="inputFieldLabel">Seller ID:</label>
+          <label class="inputFieldLabel">Seller ID: *</label>
           <input type="text" placeholder="Enter Seller ID" name="seller_id" id="purchase_seller_id">
           <button type="submit" onclick="return validatePurchaseGetDataForm()">Get Data</button> 
       </form> 

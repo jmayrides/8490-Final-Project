@@ -3,12 +3,6 @@ server.js
 
 Sets all of the routes in your application to be able to navigate
 between pages and send data back and forth.
-
-For examples shown here, data is retrieved from Oracle and stored
-in a Json file. From there, it is loaded into the HTML files.
-
-Resources:
-- ExpressJS Routing: https://expressjs.com/en/guide/routing.html 
 */
 
 var http = require('http');
@@ -52,6 +46,33 @@ connection.then(connection => {
 	});
 
     // SET ROUTES TO GET/UPDATE/INSERT DATA
+	app.post('/createSeller', function(request, response) {
+	    // Capture the input fields
+	    let name = request.body.name;
+		let street = request.body.street;
+		let city = request.body.city;
+		let state = request.body.state;
+		let zip = request.body.zip;
+		let email = request.body.email;
+		let phone_number = request.body.phone_number;
+
+	    // Log what the user has entered
+	    // console.log("Seller ID:", seller_id);
+
+	    if(name && street && city && state && zip && email && phone_number) {
+			sql = "INSERT INTO Seller VALUES (SELLER_ID_GENERATOR.NEXTVAL, :1, :2, :3, :4, :5, :6, '', :7)"
+			binds = [name, street, city, state, zip, email, phone_number]
+			insertData(sql, binds).then((response2) => {
+  				if(response2)
+					response.send("Seller account creation was successful.")
+					
+				else
+					response.send("Seller account could not be created. Ensure input is valid and try again.");
+			});
+            
+        }
+    });
+
 	app.post('/getProducts', function(request, response) {
 	    // Capture the input fields
 	    let seller_id = request.body.seller_id;
@@ -156,6 +177,21 @@ connection.then(connection => {
 			console.log("No new data")
 			return false
 		}
+	}
+
+	async function insertData(sql, binds){
+		// let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
+		// let result = await connection.execute(sql, binds, options)
+
+		let result = await connection.execute(sql, binds)
+		await connection.execute('Commit')
+
+		console.log(result)
+	
+		if(result)
+			return true
+		else
+			return false
 	}
 
 });
