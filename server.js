@@ -60,7 +60,27 @@ connection.then(connection => {
 	    console.log("Seller ID:", seller_id);
 
 	    if(seller_id) {
-			sql = `SELECT * FROM product WHERE seller_id = :1`
+			sql = 'SELECT * FROM product WHERE seller_id = :1'
+			binds = [seller_id]
+			retrieveMatchingData(sql, binds).then((response2) => {
+  				if(response2)
+					response.redirect('/showResults')
+				else
+					response.send("No results found. Ensure input is valid and try again.");
+			});
+            
+        }
+    });
+
+	app.post('/getPurchases', function(request, response) {
+	    // Capture the input fields
+	    let seller_id = request.body.seller_id;
+
+	    // Log what the user has entered
+	    console.log("Seller ID:", seller_id);
+
+	    if(seller_id) {
+			sql = 'SELECT * FROM Purchase WHERE listing_id IN (SELECT listing_id FROM Product WHERE seller_id = :1) ORDER BY customer_id'
 			binds = [seller_id]
 			retrieveMatchingData(sql, binds).then((response2) => {
   				if(response2)

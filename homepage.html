@@ -3,17 +3,14 @@
 <head>  
 <meta name="viewport" content="width=device-width, initial-scale=1">  
 <link rel="stylesheet" href="/stylesheets/homepage.css">
-<title> Test Page </title>  
+<title> Home Page </title>  
 </head>
 
 <script>
 
   function validateProductGetDataForm() {
 
-    /* You can use this function to validate input, especially
-    if you DB requires specific valus for specific attributes */
-
-    var seller_id = document.getElementById("seller_id").value; 
+    var seller_id = document.getElementById("product_seller_id").value; 
         
     if(seller_id == "") {  
       console.log("Please enter a Seller ID.");
@@ -23,22 +20,14 @@
     return true;
   }
 
-  function validateUpdateDataForm() {
+  function validatePurchaseGetDataForm() {
 
-    /* You can use this function to validate input, especially
-    if you DB requires specific valus for specific attributes */
-
-    var bikeid = document.getElementById("bikeid").value; 
-    var bavailable = document.getElementById("bavailable").value; 
-        
-    if(bikeid == "") {  
-      console.log("Please enter the bike ID.");
+    var seller_id = document.getElementById("purchase_seller_id").value; 
+    
+    if(seller_id == "") {  
+      console.log("Please enter a Seller ID.");
       return false;  
     }  
-    if(bavailable == "") {  
-    console.log("Please enter the bike availability.");
-      return false;  
-    }
 
     return true;
   }
@@ -49,11 +38,20 @@
     
     <div class="container"> 
         <form class="formContainer" action="/getProducts" method="post">
-            <h1 class="header"> Get product data </h1>  
-            <label class="inputFieldLabel">Seller ID: </label>   
-            <input type="text" placeholder="Enter Seller ID" name="seller_id" id="seller_id">
-            <button type="submit" onclick="return validateProductGetDataForm()">Get Product Data</button> 
+            <h1 class="header"> Get Product Data </h1> 
+            <label class="inputFieldLabel">Seller ID:</label>   
+            <input type="text" placeholder="Enter Seller ID" name="seller_id" id="product_seller_id">
+            <button type="submit" onclick="return validateProductGetDataForm()">Get Data</button> 
         </form> 
+    </div>
+
+    <div class="container"> 
+      <form class="formContainer" action="/getPurchases" method="post">
+          <h1 class="header"> Get Purchase Data </h1> 
+          <label class="inputFieldLabel">Seller ID:</label>
+          <input type="text" placeholder="Enter Seller ID" name="seller_id" id="purchase_seller_id">
+          <button type="submit" onclick="return validatePurchaseGetDataForm()">Get Data</button> 
+      </form> 
     </div>
 
     <div class="container"> 
