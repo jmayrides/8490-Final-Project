@@ -16,6 +16,7 @@ var fs = require('fs');
 var express = require('express');
 const app = express();
 const path = require('path');
+const oracledb = require('oracledb');
 var connection = require('./connectToDB.js'); // connect to DB
 var bodyParser = require('body-parser'); // middleware
 
@@ -33,7 +34,7 @@ connection.then(connection => {
 
 	// SET ALL THE ROUTES TO APP PAGES
 	app.get('/', function(req, res) {
-		res.sendFile(path.join(__dirname, '/homepage.html'));     // This is the page that will be rendered by default each time app is opened
+		res.sendFile(path.join(__dirname, '/homepage.html'));
 	});
 	app.get('/home', function(req, res) {
 	res.sendFile(path.join(__dirname, '/homepage.html'));
@@ -46,44 +47,28 @@ connection.then(connection => {
 	});
 
 	// GET PATHS TO JSON FILES & CREATIVE FILES
-	app.get('/bikesdatajson', function(req, res) {
-		res.sendFile(path.join(__dirname, '/json/bikesdata.json'));
+	app.get('/retrievedDataJson', function(req, res) {
+		res.sendFile(path.join(__dirname, '/json/data.json'));
 	});
 
     // SET ROUTES TO GET/UPDATE/INSERT DATA
-	app.post('/getbikes', function(request, response) {
+	app.post('/getProducts', function(request, response) {
 	    // Capture the input fields
-	    let color = request.body.color;
-	    let bstyle = request.body.bstyle;
+	    let seller_id = request.body.seller_id;
 
 	    // Log what the user has entered
-	    console.log("Color Entered:", color, ", Style Entered:", bstyle);
+	    console.log("Seller ID:", seller_id);
 
-	    if (color && bstyle){
-
-            retrieveMatchingBikes();
-
-            async function retrieveMatchingBikes(){
-
-                const result = await connection.execute(
-                    'SELECT * FROM BIKES WHERE color = :1 AND bstyle = :2',
-                    [color, bstyle]
-                );
-                
-                if (result.rows.length > 0) {
-                    fs.writeFileSync('./json/bikesdata.json', JSON.stringify(result.rows)); // puts the result in the json
-                    // console.log("Results: ", result.rows);
-                    // console.log("Length: ", result.rows.length);
-                    response.redirect('/showResults');
-                }
-                else {
-                    response.send("No results found. Please try again. Ensure first letter of color and style are capital.")
-                }
-
-                // based on the result, you could redirect the user to a different page:
-                // response.redirect('/home');	// Redirect to home page
-
-            }
+	    if(seller_id) {
+			sql = `SELECT * FROM product WHERE seller_id = :1`
+			binds = [seller_id]
+			retrieveMatchingData(sql, binds).then((response2) => {
+  				if(response2)
+					response.redirect('/showResults')
+				else
+					response.send("No results found. Ensure input is valid and try again.");
+			});
+            
         }
     });
 
@@ -138,6 +123,21 @@ connection.then(connection => {
 		);
 	*/
 	
+	async function retrieveMatchingData(sql, binds){
+		let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
+		let result = await connection.execute(sql, binds, options)
+	
+		if (result.rows.length > 0) {
+			fs.writeFileSync('./json/data.json', JSON.stringify(result)) // puts the result in the json
+			console.log("Results: ", result.rows)
+			console.log("Length: ", result.rows.length)
+			return true
+		} else {
+			console.log("No new data")
+			return false
+		}
+	}
+
 });
 
 app.listen(PORT);

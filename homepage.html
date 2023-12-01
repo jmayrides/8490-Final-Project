@@ -8,22 +8,17 @@
 
 <script>
 
-  function validateGetDataForm() {
+  function validateProductGetDataForm() {
 
     /* You can use this function to validate input, especially
     if you DB requires specific valus for specific attributes */
 
-    var color = document.getElementById("color").value; 
-    var bstyle = document.getElementById("bstyle").value; 
+    var seller_id = document.getElementById("seller_id").value; 
         
-    if(color == "") {  
-      console.log("Please enter the bike color.");
+    if(seller_id == "") {  
+      console.log("Please enter a Seller ID.");
       return false;  
     }  
-    if(bstyle == "") {  
-    console.log("Please enter the bike style.");
-      return false;  
-    }
   
     return true;
   }
@@ -53,14 +48,12 @@
 <body> 
     
     <div class="container"> 
-        <form class="formContainer" action="/getbikes" method="post">
-            <h1 class="header"> Get bike data </h1>  
-            <label class="inputFieldLabel">Color: </label>   
-            <input type="text" placeholder="Enter Color" name="color" id="color">
-            <label class="inputFieldLabel">Style: </label>   
-            <input type="text" placeholder="Enter Style" name="bstyle" id="bstyle">
-            <button type="submit" onclick="return validateGetDataForm()">Get Bike Data</button> 
-      </form> 
+        <form class="formContainer" action="/getProducts" method="post">
+            <h1 class="header"> Get product data </h1>  
+            <label class="inputFieldLabel">Seller ID: </label>   
+            <input type="text" placeholder="Enter Seller ID" name="seller_id" id="seller_id">
+            <button type="submit" onclick="return validateProductGetDataForm()">Get Product Data</button> 
+        </form> 
     </div>
 
     <div class="container"> 
