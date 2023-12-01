@@ -45,6 +45,39 @@
     return true;
   }
 
+  function validateCreateProductForm() {
+    var name = document.getElementById("create_product_name").value; 
+    var quantity_type = document.getElementById("create_product_quantity_type").value;
+    var quantity = document.getElementById("create_product_quantity").value;
+    var price = document.getElementById("create_product_price").value;
+    var discount = document.getElementById("create_product_discount").value;
+    var item_category = document.getElementById("create_product_item_category").value;
+    var seller_id = document.getElementById("create_product_seller_id").value;
+        
+    if(name == "" || quantity_type == "" || quantity == "" || price == "" || discount == "" || item_category == "" || seller_id == "") {  
+      console.log("Please make sure all values are filled out.");
+      return false;  
+    }
+
+    return true;
+  }
+
+  function validateUpdateProductForm() {
+    var listing_id = document.getElementById("update_product_listing_id").value;
+    var quantity = document.getElementById("update_product_quantity").value; 
+    var price = document.getElementById("update_product_price").value; 
+    var discount = document.getElementById("update_product_discount").value; 
+        
+    if(listing_id == "") {  
+      console.log("Please enter a Listing ID.");
+      return false;
+    } else if(quantity == "" && price == "" && discount == "") {
+      console.log("Please make sure one of the three fields has a new value.");
+      return false;
+    }
+    return true;
+  }
+
   function validatePurchaseGetDataForm() {
     var seller_id = document.getElementById("purchase_seller_id").value; 
     
@@ -63,6 +96,7 @@
     <div class="container"> 
       <form class="formContainer" action="/createSeller" method="post">
           <h1 class="header"> Create New Seller Account </h1> 
+          <p> Asterisk denotes required field. </p>  
           <label class="inputFieldLabel">Name: *</label>   
           <input type="text" placeholder="Enter Name" name="name" id="seller_name">
           <label class="inputFieldLabel">Street Address: *</label>   
@@ -83,7 +117,8 @@
   
     <div class="container"> 
         <form class="formContainer" action="/getProducts" method="post">
-            <h1 class="header"> Get Product Data </h1> 
+            <h1 class="header"> Get Product Data </h1>
+            <p> Asterisk denotes required field. </p>  
             <label class="inputFieldLabel">Seller ID: *</label>   
             <input type="text" placeholder="Enter Seller ID" name="seller_id" id="product_seller_id">
             <button type="submit" onclick="return validateProductGetDataForm()">Get Data</button> 
@@ -91,22 +126,50 @@
     </div>
 
     <div class="container"> 
-      <form class="formContainer" action="/getPurchases" method="post">
-          <h1 class="header"> Get Purchase Data </h1> 
-          <label class="inputFieldLabel">Seller ID: *</label>
-          <input type="text" placeholder="Enter Seller ID" name="seller_id" id="purchase_seller_id">
-          <button type="submit" onclick="return validatePurchaseGetDataForm()">Get Data</button> 
+      <form class="formContainer" action="/createProduct" method="post">
+          <h1 class="header"> Create New Product </h1> 
+          <p> Asterisk denotes required field. </p>  
+          <label class="inputFieldLabel">Name: *</label>   
+          <input type="text" placeholder="Enter Name" name="name" id="create_product_name">
+          <label class="inputFieldLabel">Quantity Type: *</label>   
+          <input type="text" placeholder="Enter Quantity Type" name="quantity_type" id="create_product_quantity_type">
+          <label class="inputFieldLabel">Quantity: *</label>   
+          <input type="text" placeholder="Enter Quantity" name="quantity" id="create_product_quantity">
+          <label class="inputFieldLabel">Price: *</label>   
+          <input type="text" placeholder="Enter Price" name="price" id="create_product_price">
+          <label class="inputFieldLabel">Discount Amount: *</label>   
+          <input type="text" placeholder='Enter Discount (0 --> 0.99)' name="discount" id="create_product_discount">
+          <label class="inputFieldLabel">Item Category: *</label>   
+          <input type="text" placeholder="Enter Item Category" name="item_category" id="create_product_item_category">
+          <label class="inputFieldLabel">Seller ID: *</label>   
+          <input type="text" placeholder="Enter Seller ID" name="seller_id" id="create_product_seller_id">
+          <button type="submit" onclick="return validateCreateProductForm()">Create Product</button> 
       </form> 
     </div>
 
     <div class="container"> 
-      <form class="formContainer" action="/updateavailability" method="post">
-        <h1 class="header"> Update bike availability</h1>  
-        <label class="inputFieldLabel">BikeID: </label>   
-        <input type="text" placeholder="Enter Bike ID" name="bikeid" id="bikeid">
-        <label class="inputFieldLabel">Availability: </label>   
-        <input type="text" placeholder="Enter Availability" name="bavailable" id="bavailable">
-        <button type="submit" onclick="return validateUpdateDataForm()">Update Availability</button> 
+      <form class="formContainer" action="/updateProduct" method="post">
+          <h1 class="header"> Update Product Data </h1>
+          <p> Asterisk denotes required field. </p>  
+          <label class="inputFieldLabel">Listing ID of Product to Update: *</label>   
+          <input type="text" placeholder="Enter Listing ID" name="listing_id" id="update_product_listing_id">
+          <label class="inputFieldLabel">New Quantity:</label>   
+          <input type="text" placeholder="Enter Quantity" name="quantity" id="update_product_quantity">
+          <label class="inputFieldLabel">New Price:</label>
+          <input type="text" placeholder="Enter Price" name="price" id="update_product_price">
+          <label class="inputFieldLabel">New Discount:</label>   
+          <input type="text" placeholder="Enter Discount" name="discount" id="update_product_discount">
+          <button type="submit" onclick="return validateUpdateProductForm()">Update Data</button>
+      </form> 
+    </div>
+
+    <div class="container"> 
+      <form class="formContainer" action="/getPurchases" method="post">
+          <h1 class="header"> Get Purchase Data </h1> 
+          <p> Asterisk denotes required field. </p>  
+          <label class="inputFieldLabel">Seller ID: *</label>
+          <input type="text" placeholder="Enter Seller ID" name="seller_id" id="purchase_seller_id">
+          <button type="submit" onclick="return validatePurchaseGetDataForm()">Get Data</button> 
       </form> 
     </div>
     

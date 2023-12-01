@@ -6,6 +6,7 @@ DROP TABLE Payment CASCADE CONSTRAINTS;
 DROP TABLE Cart CASCADE CONSTRAINTS;
 DROP SEQUENCE Customer_Id_Generator;
 DROP SEQUENCE Seller_Id_Generator;
+DROP SEQUENCE Listing_Id_Generator;
 
 CREATE TABLE Customer (
     customer_id INT PRIMARY KEY,
@@ -34,12 +35,12 @@ CREATE TABLE Seller (
 CREATE TABLE Product (
     listing_id INT PRIMARY KEY,
     fresh VARCHAR2(5) CHECK (fresh IN ('true', 'false')),
-    name VARCHAR2(255),
-    quantity_type VARCHAR2(255) CHECK (quantity_type IN ('Weight', 'Item')),
-    quantity DECIMAL(10,2) CHECK (quantity > 0),
+    name VARCHAR2(255) NOT NULL,
+    quantity_type VARCHAR2(255) NOT NULL CHECK (quantity_type IN ('Weight', 'Item')),
+    quantity DECIMAL(10,2) NOT NULL CHECK (quantity > 0),
     price DECIMAL(10,2) NOT NULL CHECK (price > 0),
-    discount DECIMAL(3,2) CHECK (discount >= 0 AND discount < 1),
-    item_category VARCHAR2(255) CHECK (item_category IN ('Fruit', 'Vegetable', 'Dairy', 'Meat', 'Other')),
+    discount DECIMAL(3,2) NOT NULL CHECK (discount >= 0 AND discount < 1),
+    item_category VARCHAR2(255) NOT NULL CHECK (item_category IN ('Fruit', 'Vegetable', 'Dairy', 'Meat', 'Other')),
     seller_id INT,
     FOREIGN KEY (seller_id) REFERENCES Seller(seller_id)
 );
@@ -79,6 +80,11 @@ CREATE SEQUENCE Customer_Id_Generator
   NOMAXVALUE;
   
 CREATE SEQUENCE Seller_Id_Generator
+  START WITH 1000
+  INCREMENT BY 1
+  NOMAXVALUE;
+
+CREATE SEQUENCE Listing_Id_Generator
   START WITH 1000
   INCREMENT BY 1
   NOMAXVALUE;

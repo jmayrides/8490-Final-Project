@@ -56,18 +56,14 @@ connection.then(connection => {
 		let email = request.body.email;
 		let phone_number = request.body.phone_number;
 
-	    // Log what the user has entered
-	    // console.log("Seller ID:", seller_id);
-
 	    if(name && street && city && state && zip && email && phone_number) {
-			sql = "INSERT INTO Seller VALUES (SELLER_ID_GENERATOR.NEXTVAL, :1, :2, :3, :4, :5, :6, '', :7)"
+			sql = "INSERT INTO Seller VALUES (SELLER_ID_GENERATOR.NEXTVAL, :1, :2, :3, :4, :5, :6, DEFAULT, :7)"
 			binds = [name, street, city, state, zip, email, phone_number]
-			insertData(sql, binds).then((response2) => {
+			insertOrUpdateData(sql, binds).then((response2) => {
   				if(response2)
-					response.send("Seller account creation was successful.")
-					
+					response.send("Seller account was created successfully.")
 				else
-					response.send("Seller account could not be created. Ensure input is valid and try again.");
+					response.send("Seller account could not be created. Ensure input is valid and try again.")
 			});
             
         }
@@ -75,10 +71,10 @@ connection.then(connection => {
 
 	app.post('/getProducts', function(request, response) {
 	    // Capture the input fields
-	    let seller_id = request.body.seller_id;
+	    let seller_id = request.body.seller_id
 
 	    // Log what the user has entered
-	    console.log("Seller ID:", seller_id);
+	    console.log("Seller ID:", seller_id)
 
 	    if(seller_id) {
 			sql = 'SELECT * FROM product WHERE seller_id = :1'
@@ -87,7 +83,7 @@ connection.then(connection => {
   				if(response2)
 					response.redirect('/showResults')
 				else
-					response.send("No results found. Ensure input is valid and try again.");
+					response.send("No results found. Ensure input is valid and try again.")
 			});
             
         }
@@ -98,7 +94,7 @@ connection.then(connection => {
 	    let seller_id = request.body.seller_id;
 
 	    // Log what the user has entered
-	    console.log("Seller ID:", seller_id);
+	    console.log("Seller ID:", seller_id)
 
 	    if(seller_id) {
 			sql = 'SELECT * FROM Purchase WHERE listing_id IN (SELECT listing_id FROM Product WHERE seller_id = :1) ORDER BY customer_id'
@@ -107,71 +103,94 @@ connection.then(connection => {
   				if(response2)
 					response.redirect('/showResults')
 				else
-					response.send("No results found. Ensure input is valid and try again.");
+					response.send("No results found. Ensure input is valid and try again.")
 			});
             
         }
     });
 
-	app.post('/updateavailability', function(request, response) {
+	app.post('/createProduct', function(request, response) {
 	    // Capture the input fields
-	    let bikeid = request.body.bikeid;
-	    let bavailable = request.body.bavailable;
+	    let name = request.body.name;
+		let quantity_type = request.body.quantity_type;
+		let quantity = request.body.quantity;
+		let price = request.body.price;
+		let discount = request.body.discount;
+		let item_category = request.body.item_category;
+		let seller_id = request.body.seller_id;
 
-	    // Log what the user has entered
-	    console.log("ID Entered:", bikeid, ", Availability Entered:", bavailable);
-
-	    if (bikeid && bavailable){
-
-            updateMatchingBike();
-
-            async function updateMatchingBike(){
-
-				try {
-					const updateBike = await connection.execute(
-						`UPDATE BIKES
-						 SET bavailable = :1
-						 WHERE bikeid = :2`,
-						[bavailable, bikeid]
-					);
-
-					if (updateBike.rowsAffected === 1) { // confirms that only one row was affected, as expected
-						await connection.commit(); // commits the changes to the remote DB
-	
-						const updateJson = await connection.execute( // select query to confirm the change was made and update the json
-							'SELECT * FROM BIKES'
-						);
-		
-						fs.writeFileSync('./json/bikesdata.json', JSON.stringify(updateJson.rows)); // puts the result in the json
-						response.redirect('/showResults');
-					} else {
-						response.send("An error occurred. Please try again.")
-					}
-				} catch { // error message if the update did not work
-					response.send("Bike update was unsuccessful. Check that the values are in the correct range and try again.");
-				}
-            }
+	    if(name && quantity_type && quantity && price && discount && item_category && seller_id) {
+			sql = "INSERT INTO Product VALUES (LISTING_ID_GENERATOR.NEXTVAL, 'true', :1, :2, :3, :4, :5, :6, :7)"
+			binds = [name, quantity_type, quantity, price, discount, item_category, seller_id]
+			insertOrUpdateData(sql, binds).then((response2) => {
+  				if(response2)
+					response.send("Product was created successfully.")
+				else
+					response.send("Product could not be created. Ensure input is valid and try again.")
+			});
+            
         }
     });
 
-	/* 
-	   Along with SELECT and UPDATE statements, you can also use insert statements to add more rows.
-	   Example: 
+	app.post('/updateProduct', function(request, response) {
+	    // Capture the input fields
+	    let listing_id = request.body.listing_id;
+	    let quantity = request.body.quantity;
+		let price = request.body.price;
+		let discount = request.body.discount;
 
-	   const result = await connection.execute(
-			`INSERT INTO <TABLE NAME> VALUES (:1, :2, :3)`,
-			[value1, value2, value3]
-		);
-	*/
+	    // Log what the user has entered
+	    // console.log("Listing ID:", listing_id, ", Quantity:", quantity, ", Price:", price, ", Discount:", discount)
+
+	    if(listing_id && (quantity || price || discount)) {
+
+			// "UPDATE product SET quantity = :1, price = :2, discount = :3 WHERE listing_id = :4"
+			var count = 1
+			var sql = "UPDATE Product SET "
+			var binds = []
+			
+			if(quantity != '') {
+				sql += "quantity = :" + count
+				count++
+				binds.push(quantity)
+			}
+			if(price != '') {
+				if(count > 1)
+					sql += ", "
+				sql += "price = :" + count
+				count++
+				binds.push(price)
+			}
+			if(discount != '') {
+				if(count > 1)
+					sql += ", "
+				sql += "discount = :" + count
+				count++
+				binds.push(discount)
+			}
+
+			sql += " WHERE listing_id = :" + count
+			binds.push(listing_id)
+
+			insertOrUpdateData(sql, binds).then((response2) => {
+  				if(response2)
+					response.send('Product with Listing ID = ' + listing_id + ' was successfully updated.')
+					
+				else
+					response.send("Listing could not be updated. Ensure input is valid and try again.")
+			});
+
+        }
+    });
 	
-	async function retrieveMatchingData(sql, binds){
+	async function retrieveMatchingData(sql, binds) {
 		let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
 		let result = await connection.execute(sql, binds, options)
 	
 		if (result.rows.length > 0) {
 			fs.writeFileSync('./json/data.json', JSON.stringify(result)) // puts the result in the json
-			console.log("Results: ", result.rows)
-			console.log("Length: ", result.rows.length)
+			// console.log("Results: ", result.rows)
+			// console.log("Length: ", result.rows.length)
 			return true
 		} else {
 			console.log("No new data")
@@ -179,19 +198,21 @@ connection.then(connection => {
 		}
 	}
 
-	async function insertData(sql, binds){
+	async function insertOrUpdateData(sql, binds) {
 		// let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
 		// let result = await connection.execute(sql, binds, options)
-
-		let result = await connection.execute(sql, binds)
-		await connection.execute('Commit')
-
-		console.log(result)
-	
-		if(result)
-			return true
-		else
+		try {
+			let result = await connection.execute(sql, binds)
+			
+			// console.log(result)
+		
+			if(result.rowsAffected === 1) {
+				await connection.execute('Commit')
+				return true
+			}
+		} catch {
 			return false
+		}
 	}
 
 });
