@@ -16,7 +16,7 @@ CREATE TABLE Customer (
     state VARCHAR2(2) NOT NULL CHECK (state IN ('AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY')),
     zip VARCHAR2(5) NOT NULL,
     email VARCHAR2(255) NOT NULL CHECK (email LIKE '%@%.%'),
-    register_date DATE DEFAULT CURRENT_DATE,
+    register_date DATE DEFAULT CURRENT_DATE NOT NULL,
     phone_number VARCHAR2(10) NOT NULL
 );
 
@@ -28,7 +28,7 @@ CREATE TABLE Seller (
     state VARCHAR2(2) NOT NULL CHECK (state IN ('AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY')),
     zip VARCHAR2(5) NOT NULL,
     email VARCHAR2(255) NOT NULL CHECK (email LIKE '%@%.%'),
-    register_date DATE DEFAULT CURRENT_DATE,
+    register_date DATE DEFAULT CURRENT_DATE NOT NULL,
     phone_number VARCHAR2(10) NOT NULL
 );
 
