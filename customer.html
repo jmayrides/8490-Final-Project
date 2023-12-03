@@ -146,6 +146,11 @@
           <p> Asterisk denotes required field. </p>
           <label class="inputFieldLabel">Customer ID: *</label>
           <input type="text" placeholder="Enter Customer ID" name="customer_id" id="checkout_customer_id">
+          <label class="inputFieldLabel">Delivery Type: *</label> <br>
+          <select name="delivery_type" id="checkout_delivery_type">
+            <option value="Delivery">Delivery</option>
+            <option value="Pick Up">Pick Up</option>
+          </select>
           <button type="submit" onclick="return validateCheckoutForm()">Checkout</button>
         </form>
       </div>
