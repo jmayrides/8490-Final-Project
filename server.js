@@ -51,7 +51,7 @@ connection.then(connection => {
 		res.sendFile(path.join(__dirname, '/json/data.json'));
 	});
 
-    // SET ROUTES TO GET/UPDATE/INSERT DATA
+    // SET ROUTES FOR SELLER REQUIREMENTS
 	app.post('/createSeller', function(request, response) {
 	    // Capture the input fields
 	    let name = request.body.name;
@@ -75,7 +75,7 @@ connection.then(connection => {
         }
     });
 
-	app.post('/getProducts', function(request, response) {
+	app.post('/getProductsForSeller', function(request, response) {
 	    // Capture the input fields
 	    let seller_id = request.body.seller_id
 
@@ -138,57 +138,154 @@ connection.then(connection => {
         }
     });
 
-	app.post('/updateProduct', function(request, response) {
+	app.post('/restockProduct', function(request, response) {
 	    // Capture the input fields
 	    let listing_id = request.body.listing_id;
 	    let quantity = request.body.quantity;
-		let price = request.body.price;
-		let discount = request.body.discount;
 
 	    // Log what the user has entered
-	    // console.log("Listing ID:", listing_id, ", Quantity:", quantity, ", Price:", price, ", Discount:", discount)
+	    // console.log("Listing ID:", listing_id, ", Quantity:", quantity)
 
+
+		// NOT WORKING RN!!!!!
 	    if(listing_id && (quantity || price || discount)) {
 
-			// "UPDATE product SET quantity = :1, price = :2, discount = :3 WHERE listing_id = :4"
-			var count = 1
-			var sql = "UPDATE Product SET "
-			var binds = []
-			
-			if(quantity != '') {
-				sql += "quantity = :" + count
-				count++
-				binds.push(quantity)
-			}
-			if(price != '') {
-				if(count > 1)
-					sql += ", "
-				sql += "price = :" + count
-				count++
-				binds.push(price)
-			}
-			if(discount != '') {
-				if(count > 1)
-					sql += ", "
-				sql += "discount = :" + count
-				count++
-				binds.push(discount)
-			}
+			// 'BEGIN
+			// your_procedure_name(:param1, :param2);
+			// END;'
 
-			sql += " WHERE listing_id = :" + count
-			binds.push(listing_id)
+			sql = 'BEGIN restock(:1, :2); END;'
+			binds = [listing_id, quantity]
 
 			insertOrUpdateData(sql, binds).then((response2) => {
   				if(response2)
-					response.send('Product with Listing ID = ' + listing_id + ' was successfully updated.')
+					response.send('Product with Listing ID = ' + listing_id + ' was successfully restocked.')
 					
 				else
-					response.send("Listing could not be updated. Ensure input is valid and try again.")
+					response.send("Listing could not be restocked. Ensure input is valid and try again.")
 			});
 
         }
     });
-	
+
+	// SET ROUTES FOR CUSTOMER REQUIREMENTS
+	app.post('/createCustomer', function(request, response) {
+	    // Capture the input fields
+	    let name = request.body.name;
+		let street = request.body.street;
+		let city = request.body.city;
+		let state = request.body.state;
+		let zip = request.body.zip;
+		let email = request.body.email;
+		let phone_number = request.body.phone_number;
+
+	    if(name && street && city && state && zip && email && phone_number) {
+			sql = "INSERT INTO Customer VALUES (CUSTOMER_ID_GENERATOR.NEXTVAL, :1, :2, :3, :4, :5, :6, DEFAULT, :7)"
+			binds = [name, street, city, state, zip, email, phone_number]
+			insertOrUpdateData(sql, binds).then((response2) => {
+  				if(response2)
+					response.send("Customer account was created successfully.")
+				else
+					response.send("Customer account could not be created. Ensure input is valid and try again.")
+			});
+            
+        }
+    });
+
+	app.post('/getProductsForCustomer', function(request, response) {
+	    // Capture the input fields
+	    let name = request.body.name
+		let item_category = request.body.item_category
+
+	    if(name || item_category) {
+
+			var count = 1
+			var sql = "SELECT * FROM Product WHERE "
+			var binds = []
+
+			if(name != '') {
+				sql += "name = :" + count
+				count++
+				binds.push(name)
+			}
+			if(item_category != '') {
+				if(count > 1)
+					sql += " AND "
+				sql += "item_category = :" + count
+				count++
+				binds.push(item_category)
+			}
+
+			console.log(sql)
+			console.log(binds)
+			retrieveMatchingData(sql, binds).then((response2) => {
+  				if(response2)
+					response.redirect('/showResults')
+				else
+					response.send("No results found. Ensure input is valid and try again.")
+			});
+            
+        }
+    });
+
+	app.post('/viewCart', function(request, response) {
+	    // Capture the input fields
+	    let customer_id = request.body.customer_id;
+
+	    // Log what the user has entered
+	    console.log("Customer ID:", customer_id)
+
+	    if(customer_id) {
+			sql = 'SELECT * FROM Cart WHERE customer_id = :1'
+			binds = [customer_id]
+			retrieveMatchingData(sql, binds).then((response2) => {
+  				if(response2)
+					response.redirect('/showResults')
+				else
+					response.send("No results found. Ensure input is valid and try again.")
+			});
+            
+        }
+    });
+
+	app.post('/addItemToCart', function(request, response) {
+	    // Capture the input fields
+	    let customer_id = request.body.customer_id;
+		let listing_id = request.body.listing_id;
+		let quantity = request.body.quantity;
+
+	    if(customer_id && listing_id && quantity) {
+			sql = "INSERT INTO Cart VALUES (:1, :2, :3, DEFAULT)"
+			binds = [customer_id, listing_id, quantity]
+			insertOrUpdateData(sql, binds).then((response2) => {
+  				if(response2)
+					response.send("Listing was added to the cart successfully.")
+				else
+					response.send("Listing could not be added to the cart. Ensure input is valid and try again.")
+			});
+            
+        }
+    });
+
+	// NEED TO FINISH ONCE CHECKOUT PROCEDURE DONE!!!!
+	app.post('/checkout', function(request, response) {
+	    // Capture the input fields
+	    let customer_id = request.body.customer_id;
+
+	    if(customer_id) {
+			sql = ""
+			binds = [customer_id]
+			insertOrUpdateData(sql, binds).then((response2) => {
+  				if(response2)
+					response.send("Checkout was successful.")
+				else
+					response.send("Checkout could not be completed. Ensure input is valid and try again.")
+			});
+            
+        }
+    });
+
+	// DRIVER FUNCTIONS FOR SQL QUERIES
 	async function retrieveMatchingData(sql, binds) {
 		let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
 		let result = await connection.execute(sql, binds, options)
@@ -205,12 +302,12 @@ connection.then(connection => {
 	}
 
 	async function insertOrUpdateData(sql, binds) {
-		// let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
+		let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
 		// let result = await connection.execute(sql, binds, options)
 		try {
 			let result = await connection.execute(sql, binds)
 			
-			// console.log(result)
+			console.log(result)
 		
 			if(result.rowsAffected === 1) {
 				await connection.execute('Commit')

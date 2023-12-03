@@ -88,3 +88,20 @@ CREATE SEQUENCE Listing_Id_Generator
   START WITH 1000
   INCREMENT BY 1
   NOMAXVALUE;
+  
+CREATE OR REPLACE TRIGGER Before_cart_insert
+BEFORE INSERT ON Cart
+FOR EACH ROW
+DECLARE
+    v_available_quantity NUMBER;
+BEGIN
+    -- Get the available quantity for the associated listing ID
+    SELECT quantity INTO v_available_quantity
+    FROM Product
+    WHERE listing_id = :NEW.listing_id;
+
+    -- Check the constraint
+    IF :NEW.quantity > v_available_quantity THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Quantity in cart cannot be greater than available quantity.');
+    END IF;
+END;
