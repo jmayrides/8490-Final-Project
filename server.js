@@ -11,10 +11,10 @@ var express = require('express');
 const app = express();
 const path = require('path');
 const oracledb = require('oracledb');
-var connection = require('./connectToDB.js'); // connect to DB
-var bodyParser = require('body-parser'); // middleware
+var connection = require('./connectToDB.js');
+var bodyParser = require('body-parser');
 
-const PORT = process.env.PORT || 3000; //Sets UI to http://localhost:3000/
+const PORT = process.env.PORT || 3000;
 
 // USED TO COLLECT INFORMATION FROM PAGE
 app.use(bodyParser.urlencoded({ extended: true }));
