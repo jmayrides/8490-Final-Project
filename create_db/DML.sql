@@ -8,9 +8,9 @@ INSERT INTO Customer VALUES (3,'Kalia French','Ap #844-840 Aliquam Av.','Indiana
 UPDATE Customer SET PHONE_NUMBER = '2144898528' WHERE CUSTOMER_ID = 2;
 
 -- inserts for SELLER table
-INSERT INTO Seller VALUES (1,'Rhea Morales','142 Dis Road','Reno','NV','62516','mauris@icloud.org',CURRENT_DATE,'6772353682',NULL);
-INSERT INTO Seller VALUES (2,'Rhea Thornton','141-9619 Suspendisse Ave','Bellevue','WA','84858','mi.enim@icloud.org',CURRENT_DATE,'4712268831',NULL);
-INSERT INTO Seller VALUES (3,'Asher Shepherd','Ap #915-8982 Amet, Street','Fresno','CA','96807','magna.praesent@protonmail.com',CURRENT_DATE,'7356536525',NULL);
+INSERT INTO Seller VALUES (1,'Rhea Morales','142 Dis Road','Reno','NV','62516','mauris@icloud.org',CURRENT_DATE,'6772353682');
+INSERT INTO Seller VALUES (2,'Rhea Thornton','141-9619 Suspendisse Ave','Bellevue','WA','84858','mi.enim@icloud.org',CURRENT_DATE,'4712268831');
+INSERT INTO Seller VALUES (3,'Asher Shepherd','Ap #915-8982 Amet, Street','Fresno','CA','96807','magna.praesent@protonmail.com',CURRENT_DATE,'7356536525');
 -- SELLER update
 UPDATE Seller SET EMAIL = 'shepherd.farms@gmail.com' WHERE SELLER_ID = 3;
 
