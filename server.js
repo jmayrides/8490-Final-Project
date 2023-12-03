@@ -148,16 +148,13 @@ connection.then(connection => {
 
 
 		// NOT WORKING RN!!!!!
-	    if(listing_id && (quantity || price || discount)) {
+	    if(listing_id && quantity) {
 
-			// 'BEGIN
-			// your_procedure_name(:param1, :param2);
-			// END;'
-
-			sql = 'BEGIN restock(:1, :2); END;'
+			// sql = 'EXECUTE restock(:1, :2)'
+			sql = 'BEGIN restock(:1, :2); END'
 			binds = [listing_id, quantity]
 
-			insertOrUpdateData(sql, binds).then((response2) => {
+			runProcedure(sql, binds).then((response2) => {
   				if(response2)
 					response.send('Product with Listing ID = ' + listing_id + ' was successfully restocked.')
 					
@@ -273,7 +270,7 @@ connection.then(connection => {
 	    let customer_id = request.body.customer_id;
 
 	    if(customer_id) {
-			sql = ""
+			sql = "EXECUTE checkout(:1)"
 			binds = [customer_id]
 			insertOrUpdateData(sql, binds).then((response2) => {
   				if(response2)
@@ -303,7 +300,7 @@ connection.then(connection => {
 
 	async function insertOrUpdateData(sql, binds) {
 		let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
-		// let result = await connection.execute(sql, binds, options)
+
 		try {
 			let result = await connection.execute(sql, binds)
 			
@@ -316,6 +313,23 @@ connection.then(connection => {
 		} catch {
 			return false
 		}
+	}
+
+	async function runProcedure(sql, binds) {
+		let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
+		
+		// try {
+			let result = await connection.execute(sql, binds, options)
+			
+			console.log(result)
+		
+			// if(result.rowsAffected === 1) {
+				await connection.execute('Commit')
+				return true
+			// }
+		// } catch {
+		// 	return false
+		// }
 	}
 
 });

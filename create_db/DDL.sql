@@ -7,6 +7,7 @@ DROP TABLE Cart CASCADE CONSTRAINTS;
 DROP SEQUENCE Customer_Id_Generator;
 DROP SEQUENCE Seller_Id_Generator;
 DROP SEQUENCE Listing_Id_Generator;
+DROP SEQUENCE Purchase_Id_Generator;
 
 CREATE TABLE Customer (
     customer_id INT PRIMARY KEY,
@@ -85,6 +86,11 @@ CREATE SEQUENCE Seller_Id_Generator
   NOMAXVALUE;
 
 CREATE SEQUENCE Listing_Id_Generator
+  START WITH 1000
+  INCREMENT BY 1
+  NOMAXVALUE;
+  
+CREATE SEQUENCE Purchase_Id_Generator
   START WITH 1000
   INCREMENT BY 1
   NOMAXVALUE;
