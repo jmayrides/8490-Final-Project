@@ -257,8 +257,6 @@ connection.then(connection => {
 		let delivery_type = request.body.delivery_type;
 
 		if (customer_id && delivery_type) {
-			console.log(delivery_type)
-
 			sql = "BEGIN checkout(:1, :2); END;"
 			binds = [customer_id, delivery_type]
 			runProcedure(sql, binds).then((response2) => {
@@ -267,7 +265,6 @@ connection.then(connection => {
 				else
 					response.send("Checkout could not be completed. Ensure input is valid and try again.")
 			});
-
 		}
 	});
 
@@ -313,6 +310,8 @@ connection.then(connection => {
 
 		try {
 			let result = await connection.execute(sql, binds, options)
+			console.log(result)
+
 			await connection.execute('Commit')
 			return true
 		} catch(error) {
