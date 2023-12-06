@@ -1,4 +1,4 @@
-<!DOCTYPE html>   
+<!-- <!DOCTYPE html>   
 <html>   
 <head>  
 <meta name="viewport" content="width=device-width, initial-scale=1">  
@@ -12,7 +12,77 @@
 
 <body> 
     <h1 id="title">Customer Requirements</h1>
-    
-    
+
+
 </body>     
+</html> -->
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/stylesheets/requirements.css">
+    <title>Buyer Page</title>
+</head>
+
+<body>
+    <h1 id="title">Available Items</h1>
+
+    <div id="itemsTableContainer" class="container">
+        <button onclick="getAvailableItems()">Show Available Items</button>
+        <table id="itemsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity Type</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Seller ID</th>
+                </tr>
+            </thead>
+            <tbody id="itemsTableBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        function getAvailableItems() {
+            // Make an AJAX request to your server to get available items
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var items = JSON.parse(xhr.responseText);
+                    displayItems(items);
+                }
+            };
+            xhr.open('GET', '/getAvailableItemsdb', true); // Update the route accordingly
+            console.log("Before send:", xhr);
+            xhr.send();
+            console.log("After send:", xhr);
+        }
+
+        function displayItems(items) {
+            console.log("THise ares the items : ", items)
+            var tableBody = document.getElementById('itemsTableBody');
+            tableBody.innerHTML = '';
+
+            items.forEach(function (item) {
+                var row = tableBody.insertRow();
+                row.insertCell(0).textContent = item.name;
+                row.insertCell(1).textContent = item.quantity_type;
+                row.insertCell(2).textContent = item.quantity;
+                row.insertCell(3).textContent = item.price;
+                row.insertCell(4).textContent = item.discount;
+                row.insertCell(5).textContent = item.fresh;
+                row.insertCell(6).textContent = item.item_category;
+                row.insertCell(7).textContent = item.seller_id;
+            });
+
+            document.getElementById('itemsTable').style.display = 'block';
+        }
+    </script>
+</body>
+
 </html>
+

@@ -188,6 +188,33 @@ connection.then(connection => {
 
         }
     });
+
+
+	// for buyer
+	app.get('/getAvailableItemsdb', function(request, response) {
+		console.log("One One")
+		sql = 'SELECT * FROM Product'
+		console.log("SQL Query:", sql);
+
+		retrieveMatchingData(sql, [])
+		.then(result => {
+			if (result) {
+				// Send the JSON response to the client
+				console.log("successful");
+				response.json({ success: true, message: 'Data retrieved successfully.' });
+			} else {
+				// Send a response indicating no data was retrieved
+				console.error("failue")
+				response.json({ success: false, message: 'No data available.' });
+			}
+		})
+		.catch(error => {
+			console.error('Error retrieving data:', error.message);
+			// Send an error response to the client
+			response.status(500).json({ success: false, message: 'Internal server error.' });
+		});
+	});
+
 	
 	async function retrieveMatchingData(sql, binds) {
 		let options = {outFormat: oracledb.OUT_FORMAT_OBJECT}
@@ -222,6 +249,7 @@ connection.then(connection => {
 	}
 
 });
+
 
 app.listen(PORT);
 console.log('Server started at http://localhost:' + PORT);
